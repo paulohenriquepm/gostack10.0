@@ -50,9 +50,23 @@ class UserController {
     });
   }
 
-  async update(req, res) {}
+  async update(req, res) {
+    const { id } = req.body;
 
-  async delete(req, res) {}
+    const user = await User.findByPk(req.body.id);
+
+    if (!user) {
+      return res.status(401).json({ message: 'User not found!' });
+    }
+
+    const { name, email } = await user.update(req.body);
+
+    return res.json({
+      id,
+      name,
+      email,
+    });
+  }
 }
 
 export default new UserController();

@@ -45,7 +45,7 @@ class AppointmentController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ message: 'Validation fails!' });
+      return res.status(400).json({ error: 'Validation fails!' });
     }
 
     const { provider_id, date } = req.body;
@@ -61,7 +61,7 @@ class AppointmentController {
     if (!isProvider) {
       return res
         .status(401)
-        .json({ message: 'You can only create appointments with providers!' });
+        .json({ error: 'You can only create appointments with providers!' });
     }
 
     /**
@@ -70,7 +70,7 @@ class AppointmentController {
     const hourStart = startOfHour(parseISO(date));
 
     if (isBefore(hourStart, new Date())) {
-      return res.status(400).json({ message: 'Past dates are not permitted' });
+      return res.status(400).json({ error: 'Past dates are not permitted' });
     }
 
     /**
@@ -83,7 +83,7 @@ class AppointmentController {
     if (checkAvailability) {
       return res
         .status(400)
-        .json({ message: 'Appointment date is not available' });
+        .json({ error: 'Appointment date is not available' });
     }
 
     const appointment = await Appointment.create({
@@ -128,7 +128,7 @@ class AppointmentController {
 
     if (appointment.user_id !== req.userId) {
       return res.status(401).json({
-        message: "You don't have permission to cancel this appoinment!",
+        error: "You don't have permission to cancel this appoinment!",
       });
     }
 
@@ -136,7 +136,7 @@ class AppointmentController {
 
     if (isBefore(dateWithSub, new Date())) {
       return res.status(401).json({
-        message: 'You can only cancel appointments 2 hours in advance',
+        error: 'You can only cancel appointments 2 hours in advance',
       });
     }
 

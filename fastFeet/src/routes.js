@@ -7,6 +7,8 @@ import RecipientController from './app/controllers/RecipientController';
 import FileController from './app/controllers/FileController';
 import DeliverymanController from './app/controllers/DeliverymanController';
 import OrderController from './app/controllers/OrderController';
+import DeliverieController from './app/controllers/DeliverieController';
+import DeliveredOrderController from './app/controllers/DeliveredOrderController';
 
 import authMiddleware from './app/middlewares/auth';
 import adminAuthMiddleware from './app/middlewares/adminAuth';
@@ -26,6 +28,9 @@ routes.put('/users', UserController.update);
 routes.get('/recipients', RecipientController.index);
 routes.post('/recipients', RecipientController.store);
 routes.put('/recipients', RecipientController.update);
+
+routes.get('/deliverymans/:id/deliveries', DeliverieController.index);
+routes.get('/deliverymans/:id/deliveredOrders', DeliveredOrderController.index);
 
 routes.use(adminAuthMiddleware);
 

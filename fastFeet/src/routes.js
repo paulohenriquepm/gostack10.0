@@ -9,6 +9,7 @@ import DeliverymanController from './app/controllers/DeliverymanController';
 import OrderController from './app/controllers/OrderController';
 import DeliverieController from './app/controllers/DeliverieController';
 import DeliveredOrderController from './app/controllers/DeliveredOrderController';
+import DeliveryProblemController from './app/controllers/DeliveryProblemController';
 
 import authMiddleware from './app/middlewares/auth';
 import adminAuthMiddleware from './app/middlewares/adminAuth';
@@ -31,6 +32,10 @@ routes.put('/recipients', RecipientController.update);
 
 routes.get('/deliverymans/:id/deliveries', DeliverieController.index);
 routes.get('/deliverymans/:id/deliveredOrders', DeliveredOrderController.index);
+routes.put(
+  '/deliverymans/:deliveryman_id/deliveries/:order_id',
+  DeliverieController.update
+);
 
 routes.use(adminAuthMiddleware);
 
@@ -47,5 +52,8 @@ routes.get('/orders', OrderController.index);
 routes.get('/orders/:id', OrderController.show);
 routes.put('/orders/:id', OrderController.update);
 routes.delete('/orders/:id', OrderController.delete);
+
+routes.get('/delivery/problems', DeliveryProblemController.index);
+routes.post('/delivery/:id/problems', DeliveryProblemController.store);
 
 export default routes;

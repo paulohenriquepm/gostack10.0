@@ -30,13 +30,14 @@ class SessionController {
       return res.status(401).json({ message: 'Invalid password!' });
     }
 
-    const { id, name } = user;
+    const { id, name, admin } = user;
 
     return res.json({
       user: {
         id,
         name,
         email,
+        admin
       },
       token: jwt.sign({ id }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,

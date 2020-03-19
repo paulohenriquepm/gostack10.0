@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import * as Yup from 'yup';
 import { parseISO, isWithinInterval, setHours } from 'date-fns';
 
@@ -10,7 +11,7 @@ import NewOrderMail from '../jobs/NewOrderMail';
 
 class OrderController {
   async index(req, res) {
-    const { page = 1 } = req.query;
+    const { product = '', page = 1 } = req.query;
 
     const orders = await Order.findAll({
       attributes: {
@@ -18,6 +19,9 @@ class OrderController {
       },
       where: {
         canceled_at: null,
+        product: {
+          [Op.iLike]: `%${product}%`,
+        },
       },
       order: [['id', 'DESC']],
       limit: 10,

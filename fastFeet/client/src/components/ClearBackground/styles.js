@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: ${props => `${props.visible ? 'block' : 'none'}`};
   position: absolute;
-  height: 100%;
+  height: calc(100% - 65px);
   top: 65px;
   left: 0;
   width: 100%;

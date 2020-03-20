@@ -5,6 +5,8 @@
   "dependencies": {
     "@react-hook/window-size": "^1.0.13",
     "@rocketseat/unform": "^1.6.2",
+    "@unform/core": "^2.0.0",
+    "@unform/web": "^2.0.0",
     "axios": "^0.19.2",
     "date-fns": "^2.10.0",
     "express": "^4.17.1",

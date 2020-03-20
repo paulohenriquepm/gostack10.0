@@ -13,7 +13,7 @@ export const Container = styled.div`
   }
 
   div {
-    display: flex;
+    display: ${props => (props.visible ? 'flex' : 'none')};
     justify-content: space-between;
   }
 

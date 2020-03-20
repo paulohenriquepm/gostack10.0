@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import { MdSearch, MdAdd } from 'react-icons/md';
 import { Container, Search } from './styles';
 
-export default function ActionHeader({ page, title }) {
+export default function ActionHeader({ page, title, visible }) {
   return (
-    <Container>
+    <Container visible={visible}>
       <h1>Gerenciando {title}</h1>
       <div>
         <Search>
@@ -27,4 +27,5 @@ export default function ActionHeader({ page, title }) {
 ActionHeader.propTypes = {
   page: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  visible: PropTypes.bool.isRequired,
 };

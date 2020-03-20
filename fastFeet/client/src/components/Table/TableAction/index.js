@@ -1,54 +1,54 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
-import {
-  MdMoreHoriz,
-  MdVisibility,
-  MdCreate,
-  MdDeleteForever,
-} from 'react-icons/md';
-import { Container, PopUp } from './styles';
+const Actions = styled.div`
+  display: ${props => (props.visible ? 'flex' : 'none')} !important;
+  flex-direction: column;
+  position: absolute;
+  right: -38px;
+  z-index: 2;
+  box-shadow: 0px 0px 2px #00000026;
+  background: #fff;
+  padding: 15px 10px;
+  border-radius: 4px;
+  min-width: 150px;
+  white-space: nowrap;
 
-export default function TableAction({ page }) {
-  const [visible, setVisible] = useState(false);
-
-  function handleTogglePopUp() {
-    setVisible(!visible);
+  &::before {
+    content: '';
+    position: absolute;
+    left: calc(50% + 3px);
+    top: -8px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #f1f1f1;
   }
 
-  return (
-    <Container>
-      <button type="button" onClick={() => handleTogglePopUp()}>
-        <MdMoreHoriz size={22} color="#c6c6c6" />
-      </button>
+  div {
+    width: 100%;
 
-      <PopUp visible={visible}>
-        <div>
-          <button type="button">
-            <MdVisibility size={18} color="#8E5BE8" />
-            Visualizar
-          </button>
-        </div>
+    & + div {
+      border-top: 1px solid #eee;
+      margin-top: 5px;
+      padding-top: 5px;
+    }
 
-        <div>
-          <Link to={`/${page}`}>
-            <MdCreate size={18} color="#4D85EE" />
-            Editar
-          </Link>
-        </div>
+    button,
+    a {
+      border: 0;
+      background: none;
+      color: #999;
+      font-size: 16px;
 
-        <div>
-          <button type="button">
-            <MdDeleteForever size={18} color="#DE3B3B" />
-            Excluir
-          </button>
-        </div>
-      </PopUp>
-    </Container>
-  );
-}
+      display: flex;
+      align-items: center;
 
-TableAction.propTypes = {
-  page: PropTypes.string.isRequired,
-};
+      svg {
+        margin-right: 10px;
+      }
+    }
+  }
+`;
+
+export default Actions;

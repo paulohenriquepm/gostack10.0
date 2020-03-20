@@ -1,13 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 import { HeaderList } from '~/components/ActionHeader';
-import { TableContainer, TableAction } from '~/components/Table';
-// import { Container } from './styles';
+import { TableContainer } from '~/components/Table';
+import Actions from './Actions';
+import Details from './Details';
+
+import api from '~/services/api';
+
+import { Scroll } from './styles';
 
 export default function OrderList() {
+  const [orders, setOrders] = useState([]);
+  const [order, setOrder] = useState([]);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    async function loadOrders() {
+      try {
+        const response = await api.get('/orders');
+
+        if (!response.data) {
+          toast.warn('Nenhum dado foi encontrado');
+        }
+
+        setOrders(response.data);
+      } catch (err) {
+        toast.error('Falha ao buscar dados');
+      }
+    }
+
+    loadOrders();
+  }, []);
+
+  function handleDetails(order) {
+    setVisible(!visible);
+    setOrder(order);
+  }
+
   return (
     <>
-      <HeaderList page="orders/new" title="encomendas" />
+      <HeaderList page="orders/new" title="encomendas" visible />
       <TableContainer>
         <thead>
           <tr>
@@ -21,59 +54,24 @@ export default function OrderList() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>#01</td>
-            <td>Paulo Henrique</td>
-            <td>
-              <div>
-                <img
-                  src="https://api.adorable.io/avatars/285/abott@adorable.png"
-                  alt="avatar"
-                />
-                Paulo Henrique
-              </div>
-            </td>
-            <td>Divinópolis</td>
-            <td>Estado</td>
-            <td>Status</td>
-            <TableAction page="orders/edit/:id" />
-          </tr>
-          <tr>
-            <td>#01</td>
-            <td>Paulo Henrique</td>
-            <td>
-              <div>
-                <img
-                  src="https://api.adorable.io/avatars/285/abott@adorable.png"
-                  alt="avatar"
-                />
-                Paulo Henrique
-              </div>
-            </td>
-            <td>Divinópolis</td>
-            <td>Estado</td>
-            <td>Status</td>
-            <td>...</td>
-          </tr>
-          <tr>
-            <td>#01</td>
-            <td>Paulo Henrique</td>
-            <td>
-              <div>
-                <img
-                  src="https://api.adorable.io/avatars/285/abott@adorable.png"
-                  alt="avatar"
-                />
-                Paulo Henrique
-              </div>
-            </td>
-            <td>Divinópolis</td>
-            <td>Estado</td>
-            <td>Status</td>
-            <td>...</td>
-          </tr>
+          {orders.map(order => (
+            <tr key={String(order.id)}>
+              <td>{order.id}</td>
+              <td>{order.recipient.name}</td>
+              <td>{order.deliveryman.name}</td>
+              <td>{order.recipient.city}</td>
+              <td>{order.recipient.state}</td>
+              <td>Entregue</td>
+              <Actions
+                page={`orders/edit/${order.id}`}
+                handleDetails={handleDetails}
+                order={order}
+              />
+            </tr>
+          ))}
         </tbody>
       </TableContainer>
+      <Details visible={visible} order={order} handleDetails={handleDetails} />
     </>
   );
 }

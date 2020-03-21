@@ -5,14 +5,20 @@ import { toast } from 'react-toastify';
 
 import api from '~/services/api';
 
-import { FormContainer, FormLoading, Input } from '~/components/Form';
-// import { Container } from './styles';
+import { FormContainer, FormLoading, Input, Select } from '~/components/Form';
+import { HeaderForm } from '~/components/ActionHeader';
+
+import { SelectContainer } from './styles';
 
 export default function OrderForm({ match }) {
   const { id } = match.params;
 
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState([]);
+  const [recipients, setRecipients] = useState([]);
+  const [selectedRecipient, setSelectedRecipient] = useState([]);
+  const [deliverymans, setDeliverymans] = useState([]);
+  const [selectedDeliveryman, setSelectedDeliveryman] = useState([]);
 
   useEffect(() => {
     if (id) {
@@ -24,7 +30,8 @@ export default function OrderForm({ match }) {
           const response = await api.get(`orders/${id}`);
 
           setOrder(response.data);
-
+          setSelectedRecipient(response.data.recipient);
+          setSelectedDeliveryman(response.data.deliveryman);
           setLoading(false);
         } catch (err) {
           toast.error('Falha ao carregar dados');
@@ -34,7 +41,53 @@ export default function OrderForm({ match }) {
     }
   }, [id]);
 
-  console.tron.log(order);
+  useEffect(() => {
+    async function loadSelectOptions() {
+      try {
+        const [recipientResponse, deliverymanResponse] = await Promise.all([
+          api.get('recipients'),
+          api.get('deliverymans'),
+        ]);
+
+        setRecipients(recipientResponse.data);
+        setDeliverymans(deliverymanResponse.data);
+      } catch (err) {
+        toast.error('Falha ao carregar dados');
+      }
+    }
+
+    loadSelectOptions();
+  }, []);
+
+  const recipientsOptions = recipients.map(recipient => {
+    const data = {
+      value: recipient.id,
+      label: recipient.name,
+    };
+
+    return data;
+  });
+
+  const handleChangeRecipient = selectedOption => {
+    const { value } = selectedOption;
+
+    setSelectedRecipient(value);
+  };
+
+  const handleChangeDeliveryman = selectedOption => {
+    const { value } = selectedOption;
+
+    setSelectedDeliveryman(value);
+  };
+
+  const deliverymansOptions = deliverymans.map(deliveryman => {
+    const data = {
+      value: deliveryman.id,
+      label: deliveryman.name,
+    };
+
+    return data;
+  });
 
   return (
     <>
@@ -42,32 +95,34 @@ export default function OrderForm({ match }) {
         <FormLoading />
       ) : (
         <FormContainer initialData={order}>
-          <header>
-            <div>
-              <strong>Edição de Encomendas</strong>
-            </div>
-
-            <div>
-              <button type="button">
-                <MdChevronLeft />
-                Voltar
-              </button>
-
-              <button type="submit">
-                <MdCheck />
-                Salvar
-              </button>
-            </div>
-          </header>
-
+          <HeaderForm id={id} prevPage="orders" title="encomendas" />
           <section>
-            <div>
-              <Input name="recipient.name" label="Destinatário" />
-              <Input name="deliveryman.name" label="Entregador" />
-            </div>
-            <div>
-              <Input name="product" label="Produto" />
-            </div>
+            <SelectContainer>
+              <Select
+                name="recipient.name"
+                label="Destinatário"
+                options={recipientsOptions}
+                defaultValue={{
+                  value: selectedRecipient.id,
+                  label: selectedRecipient.name,
+                }}
+                onChange={handleChangeRecipient}
+                placeholder="Selecione um destinatário"
+              />
+              <Select
+                name="deliveryman.name"
+                label="Entregador"
+                options={deliverymansOptions}
+                defaultValue={{
+                  value: selectedDeliveryman.id,
+                  label: selectedDeliveryman.name,
+                }}
+                onChange={handleChangeDeliveryman}
+                placeholder="Selecione um entregador"
+              />
+            </SelectContainer>
+
+            <Input name="product" label="Produto" />
           </section>
         </FormContainer>
       )}

@@ -13,7 +13,9 @@ class OrderController {
   async index(req, res) {
     const { product = '', page = 1 } = req.query;
 
-    const orders = await Order.findAll({
+    const { docs, pages, total } = await Order.paginate({
+      paginate: 10,
+      page,
       attributes: {
         exclude: ['createdAt', 'updatedAt'],
       },
@@ -24,8 +26,6 @@ class OrderController {
         },
       },
       order: [['id', 'DESC']],
-      limit: 10,
-      offset: (page - 1) * 10,
       include: [
         {
           model: Recipient,
@@ -57,7 +57,12 @@ class OrderController {
       ],
     });
 
-    return res.json(orders);
+    return res.json({
+      docs,
+      page,
+      pages,
+      total,
+    });
   }
 
   async show(req, res) {

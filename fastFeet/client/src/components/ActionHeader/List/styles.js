@@ -55,7 +55,7 @@ export const Search = styled.div`
 
   svg {
     position: absolute;
-    top: 15px;
+    top: 11px;
     left: 15px;
   }
 `;

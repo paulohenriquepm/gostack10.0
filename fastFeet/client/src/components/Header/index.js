@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import logo from '~/assets/logo.png';
 
@@ -17,13 +17,21 @@ export default function Header() {
             <img src={logo} alt="fastfeet" />
           </Link>
 
-          <Link to="/orders">ENCOMENDAS</Link>
+          <NavLink to="/orders" activeClassName="selected">
+            ENCOMENDAS
+          </NavLink>
 
-          <Link to="/deliverymans">ENTREGADORES</Link>
+          <NavLink to="/deliverymans" activeClassName="selected">
+            ENTREGADORES
+          </NavLink>
 
-          <Link to="/recipients">DESTINATÁRIOS</Link>
+          <NavLink to="/recipients" activeClassName="selected">
+            DESTINATÁRIOS
+          </NavLink>
 
-          <Link to="/problems">PROBLEMAS</Link>
+          <NavLink to="/problems" activeClassName="selected">
+            PROBLEMAS
+          </NavLink>
         </nav>
 
         <aside>

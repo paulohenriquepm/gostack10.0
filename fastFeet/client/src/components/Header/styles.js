@@ -26,14 +26,21 @@ export const Content = styled.header`
 
     a {
       color: #999;
+      font-weight: bold;
+      font-size: 15px;
       transition: color 0.2s;
 
       & + a {
-        margin-left: 15px;
+        margin-left: 20px;
       }
 
       &:hover {
         color: #444;
+      }
+
+      &.selected {
+        color: #7d40e7;
+        font-weight: bold;
       }
     }
   }

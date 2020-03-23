@@ -20,7 +20,6 @@ class OrderController {
         exclude: ['createdAt', 'updatedAt'],
       },
       where: {
-        canceled_at: null,
         product: {
           [Op.iLike]: `%${product}%`,
         },

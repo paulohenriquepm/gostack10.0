@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useWindowSize } from '@react-hook/window-size';
+import { format, parseISO } from 'date-fns';
 
 import { HeaderList } from '~/components/ActionHeader';
 import Pagination from '~/components/Pagination';
 import Details from './Details';
+import { TableLoading } from '~/components/Table';
 import Table from './Table';
 
 import api from '~/services/api';
@@ -18,6 +20,26 @@ export default function OrderList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pages, setPages] = useState(null);
   const [totalDocs, setTotalDocs] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+
+  const getFormattedStatus = item => {
+    let status = {};
+    if (item.canceled_at) {
+      status = { text: 'CANCELADA', background: '#FAB0B0', color: '#DE3B3B' };
+      return status;
+    }
+    if (item.end_date) {
+      status = { text: 'ENTREGUE', background: '#DFF0DF', color: '#2CA42B' };
+      return status;
+    }
+    if (item.start_date) {
+      status = { text: 'RETIRADA', background: '#BAD2FF', color: '#4D85EE' };
+      return status;
+    }
+    status = { text: 'PENDENTE', background: '#F0F0DF', color: '#C1BC35' };
+    return status;
+  };
 
   useEffect(() => {
     async function loadOrders() {
@@ -25,6 +47,7 @@ export default function OrderList() {
         const response = await api.get('/orders', {
           params: {
             page: currentPage,
+            product: search,
           },
         });
 
@@ -32,22 +55,31 @@ export default function OrderList() {
           toast.warn('Nenhum dado foi encontrado');
         }
 
-        const data = response.data.docs.map(order => ({
-          ...order,
-          street_number: `${order.recipient.street}, ${order.recipient.number}`,
-          city_state: `${order.recipient.city} - ${order.recipient.state}`,
+        const data = response.data.docs.map(item => ({
+          ...item,
+          street_number: `${item.recipient.street}, ${item.recipient.number}`,
+          city_state: `${item.recipient.city} - ${item.recipient.state}`,
+          status: getFormattedStatus(item),
+          start_date_formatted: item.start_date
+            ? format(parseISO(item.start_date), 'dd/MM/yyyy')
+            : null,
+          end_date_formatted: item.end_date
+            ? format(parseISO(item.end_date), 'dd/MM/yyyy')
+            : null,
         }));
 
         setOrders(data);
         setPages(response.data.pages);
         setTotalDocs(response.data.total);
+        setLoading(false);
       } catch (err) {
+        setLoading(false);
         toast.error('Falha ao buscar dados');
       }
     }
 
     loadOrders();
-  }, [currentPage]);
+  }, [currentPage, search]);
 
   function handleVisible() {
     setVisible(!visible);
@@ -70,15 +102,36 @@ export default function OrderList() {
 
   return (
     <>
-      <HeaderList page="orders/new" title="encomendas" visible />
-      <Table height={height} orders={orders} handleDetails={handleDetails} />
-      <Details visible={visible} order={order} handleVisible={handleVisible} />
-      <Pagination
-        currentPage={currentPage}
-        pages={pages}
-        totalDocs={totalDocs}
-        handlePage={handlePage}
+      <HeaderList
+        page="orders/new"
+        title="encomendas"
+        search={search}
+        setSearch={setSearch}
+        visible
       />
+      {loading ? (
+        <TableLoading />
+      ) : (
+        <>
+          <Table
+            height={height}
+            orders={orders}
+            handleDetails={handleDetails}
+            setOrders={setOrders}
+          />
+          <Details
+            visible={visible}
+            order={order}
+            handleVisible={handleVisible}
+          />
+          <Pagination
+            currentPage={currentPage}
+            pages={pages}
+            totalDocs={totalDocs}
+            handlePage={handlePage}
+          />
+        </>
+      )}
     </>
   );
 }

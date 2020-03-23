@@ -6,7 +6,7 @@ import Actions from '../Actions';
 import { Scroll } from './styles';
 import { TableContainer } from '~/components/Table';
 
-export default function Table({ height, orders, handleDetails }) {
+export default function Table({ height, orders, handleDetails, setOrders }) {
   return (
     <>
       <Scroll height={height} options={{ suppressScrollX: true }}>
@@ -31,11 +31,14 @@ export default function Table({ height, orders, handleDetails }) {
                 <td>{orderItem.deliveryman.name}</td>
                 <td>{orderItem.recipient.city}</td>
                 <td>{orderItem.recipient.state}</td>
-                <td>Entregue</td>
+                <td>{orderItem.status.text}</td>
                 <Actions
                   page={`orders/edit/${orderItem.id}`}
                   handleDetails={handleDetails}
                   order={orderItem}
+                  id={orderItem.id}
+                  orders={orders}
+                  setOrders={setOrders}
                 />
               </tr>
             ))}
@@ -49,4 +52,6 @@ export default function Table({ height, orders, handleDetails }) {
 Table.propTypes = {
   height: PropTypes.number.isRequired,
   orders: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  handleDetails: PropTypes.func.isRequired,
+  setOrders: PropTypes.func.isRequired,
 };

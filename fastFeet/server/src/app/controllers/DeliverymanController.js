@@ -6,9 +6,11 @@ import File from '../models/File';
 
 class DeliverymanController {
   async index(req, res) {
-    const { name = '' } = req.query;
+    const { name = '', page = 1 } = req.query;
 
-    const deliveryman = await Deliveryman.findAll({
+    const deliveryman = await Deliveryman.paginate({
+      paginate: 10,
+      page,
       where: {
         status: true,
         name: {

@@ -37,7 +37,8 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'jsx-a11y/label-has-associated-control': 'off',
     'jsx-a11y/control-has-associated-label': 'off',
-    'eqeqeq': 'off'
+    'eqeqeq': 'off',
+    'camelcase': 'off'
   },
   settings: {
     'import/resolver': {

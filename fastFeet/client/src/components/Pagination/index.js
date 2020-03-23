@@ -21,19 +21,19 @@ export default function Pagination({
       <div>{totalDocs} registros</div>
       <aside>
         <button type="button" onClick={() => handlePage(1)}>
-          <MdFirstPage />
+          <MdFirstPage size={14} />
         </button>
         <button type="button" onClick={() => handlePage(currentPage - 1)}>
-          <MdChevronLeft />
+          <MdChevronLeft size={14} />
         </button>
         <span>
           {currentPage} / {pages}
         </span>
         <button type="button" onClick={() => handlePage(currentPage + 1)}>
-          <MdChevronRight />
+          <MdChevronRight size={14} />
         </button>
         <button type="button" onClick={() => handlePage(pages)}>
-          <MdLastPage />
+          <MdLastPage size={14} />
         </button>
       </aside>
     </Container>

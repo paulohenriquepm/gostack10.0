@@ -24,7 +24,7 @@ export default function Details({ visible, order, handleVisible }) {
             <strong>Datas</strong>
             <Date>
               <span>Retirada: </span>
-              <Input name="start_date" readOnly />
+              <Input name="start_date_formatted" readOnly />
             </Date>
             <Date>
               <span>Entrega: </span>

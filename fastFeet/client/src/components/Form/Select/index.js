@@ -13,6 +13,27 @@ export default function SelectComponent({
   label,
   placeholder,
 }) {
+  const customStyles = {
+    control: () => ({
+      display: 'flex',
+      border: '1px solid #ccc',
+      borderRadius: 4,
+      height: 45,
+      width: '100%',
+      padding: '0 7px',
+      color: '#666',
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      color: state.isSelected ? '#fff' : '#666',
+    }),
+    singleValue: provided => {
+      const color = '#666';
+
+      return { ...provided, color };
+    },
+  };
+
   return (
     <Container>
       <label>{label}</label>
@@ -20,6 +41,7 @@ export default function SelectComponent({
         name={name}
         options={options}
         onChange={onChange}
+        styles={customStyles}
         defaultValue={defaultValue}
         placeholder={placeholder}
         theme={theme => ({
@@ -27,7 +49,7 @@ export default function SelectComponent({
           colors: {
             ...theme.colors,
             primary: '#7d40e7',
-            primary25: lighten(0.3, '#7d40e7'),
+            primary25: lighten(0.35, '#7d40e7'),
           },
         })}
       />

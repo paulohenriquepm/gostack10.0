@@ -57,4 +57,8 @@ export const Date = styled.div`
   margin-top: 0 !important;
   border-top: 0 !important;
   padding-top: 0 !important;
+
+  input {
+    margin-left: 5px;
+  }
 `;

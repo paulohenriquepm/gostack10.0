@@ -69,7 +69,7 @@ export default function OrderForm({ match }) {
 
   const recipientsOptions = recipients.map(recipient => {
     const data = {
-      value: recipient.id,
+      value: recipient,
       label: recipient.name,
     };
 
@@ -84,7 +84,7 @@ export default function OrderForm({ match }) {
 
   const deliverymansOptions = deliverymans.map(deliveryman => {
     const data = {
-      value: deliveryman.id,
+      value: deliveryman,
       label: deliveryman.name,
     };
 

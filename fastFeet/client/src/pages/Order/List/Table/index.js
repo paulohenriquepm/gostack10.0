@@ -30,7 +30,18 @@ export default function Table({ height, orders, handleDetails, setOrders }) {
                 <td>{orderItem.recipient.name}</td>
                 <td>
                   <div>
-                    <img src={orderItem.deliveryman.avatar.url} alt="avatar" />
+                    {orderItem.deliveryman.avatar ? (
+                      <img
+                        src={orderItem.deliveryman.avatar.url}
+                        alt="avatar"
+                      />
+                    ) : (
+                      <img
+                        src={`https://avatar.oxro.io/avatar?name=${orderItem.deliveryman.name}`}
+                        alt="Avatar"
+                      />
+                    )}
+
                     {orderItem.deliveryman.name}
                   </div>
                 </td>

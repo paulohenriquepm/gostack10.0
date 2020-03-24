@@ -58,7 +58,7 @@ export default function OrderForm({ match }) {
         ]);
 
         setRecipients(recipientResponse.data);
-        setDeliverymans(deliverymanResponse.data);
+        setDeliverymans(deliverymanResponse.data.docs);
       } catch (err) {
         toast.error('Falha ao carregar dados');
       }

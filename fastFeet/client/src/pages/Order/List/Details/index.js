@@ -44,4 +44,5 @@ export default function Details({ visible, order, handleVisible }) {
 Details.propTypes = {
   visible: PropTypes.bool.isRequired,
   order: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+  handleVisible: PropTypes.func.isRequired,
 };

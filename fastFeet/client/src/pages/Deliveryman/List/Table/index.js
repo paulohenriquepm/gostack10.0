@@ -25,11 +25,16 @@ export default function Table({ height, deliverymans, setDeliverymans }) {
               <tr key={String(deliverymanItem.id)}>
                 <td>{deliverymanItem.id}</td>
                 <td>
-                  {deliverymanItem.avatar ? (
-                    <img src={deliverymanItem.avatar.url} alt="avatar" />
-                  ) : (
-                    'AVATAR'
-                  )}
+                  <div>
+                    {deliverymanItem.avatar ? (
+                      <img src={deliverymanItem.avatar.url} alt="avatar" />
+                    ) : (
+                      <img
+                        src={`https://avatar.oxro.io/avatar?name=${deliverymanItem.name}`}
+                        alt="Avatar"
+                      />
+                    )}
+                  </div>
                 </td>
                 <td>{deliverymanItem.name}</td>
                 <td>{deliverymanItem.email}</td>
@@ -37,7 +42,7 @@ export default function Table({ height, deliverymans, setDeliverymans }) {
                   page={`deliverymans/edit/${deliverymanItem.id}`}
                   order={deliverymanItem}
                   id={deliverymanItem.id}
-                  deliverymans={deliverymanItem}
+                  deliverymans={deliverymans}
                   setDeliverymans={setDeliverymans}
                 />
               </tr>

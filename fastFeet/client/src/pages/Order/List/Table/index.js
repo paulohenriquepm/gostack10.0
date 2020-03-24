@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Actions from '../Actions';
 
-import { Scroll } from './styles';
+import { Scroll, Status } from './styles';
 import { TableContainer } from '~/components/Table';
 
 export default function Table({ height, orders, handleDetails, setOrders }) {
@@ -28,10 +28,17 @@ export default function Table({ height, orders, handleDetails, setOrders }) {
               <tr key={String(orderItem.id)}>
                 <td>{orderItem.id}</td>
                 <td>{orderItem.recipient.name}</td>
-                <td>{orderItem.deliveryman.name}</td>
+                <td>
+                  <div>
+                    <img src={orderItem.deliveryman.avatar.url} alt="avatar" />
+                    {orderItem.deliveryman.name}
+                  </div>
+                </td>
                 <td>{orderItem.recipient.city}</td>
                 <td>{orderItem.recipient.state}</td>
-                <td>{orderItem.status.text}</td>
+                <Status status={orderItem.status}>
+                  <span>{orderItem.status.text}</span>
+                </Status>
                 <Actions
                   page={`orders/edit/${orderItem.id}`}
                   handleDetails={handleDetails}

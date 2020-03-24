@@ -77,8 +77,6 @@ export default function Actions({ page, id, deliverymans, setDeliverymans }) {
 
 Actions.propTypes = {
   page: PropTypes.string.isRequired,
-  deliveryman: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
-    .isRequired,
   id: PropTypes.number.isRequired,
   deliverymans: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
     .isRequired,

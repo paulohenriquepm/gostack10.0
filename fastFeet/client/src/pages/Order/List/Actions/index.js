@@ -22,45 +22,12 @@ export default function Actions({
   handleDetails,
   order,
   id,
-  orders,
-  setOrders,
+  confirmDelete,
 }) {
   const [visible, setVisible] = useState(false);
 
   function handleTogglePopUp() {
     setVisible(!visible);
-  }
-
-  async function handleDelete() {
-    try {
-      await api.delete(`orders/${id}`);
-
-      const listFilter = orders.filter(l => l.id !== id);
-
-      setOrders(listFilter);
-
-      toast.success('Encomenda deletada com sucesso!');
-    } catch (err) {
-      toast.error('Erro ao deletar encomenda');
-    }
-  }
-
-  function confirmDelete() {
-    confirmAlert({
-      title: 'Alerta',
-      message: `Tem certeza que deseja deletar a encomenda ${id}?`,
-      closeOnEscape: false,
-      closeOnClickOutside: false,
-      buttons: [
-        {
-          label: 'Sim',
-          onClick: () => handleDelete(),
-        },
-        {
-          label: 'Não',
-        },
-      ],
-    });
   }
 
   return (
@@ -85,7 +52,7 @@ export default function Actions({
         </div>
 
         <div>
-          <button type="button" onClick={() => confirmDelete()}>
+          <button type="button" onClick={() => confirmDelete(id)}>
             <MdDeleteForever size={18} color="#DE3B3B" />
             Excluir
           </button>
@@ -100,6 +67,4 @@ Actions.propTypes = {
   handleDetails: PropTypes.func.isRequired,
   order: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
   id: PropTypes.number.isRequired,
-  orders: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
-  setOrders: PropTypes.func.isRequired,
 };

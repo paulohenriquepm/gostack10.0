@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useWindowSize } from '@react-hook/window-size';
 import { format, parseISO } from 'date-fns';
+import { confirmAlert } from 'react-confirm-alert';
 
 import { HeaderList } from '~/components/ActionHeader';
 import Pagination from '~/components/Pagination';
@@ -41,6 +42,53 @@ export default function OrderList() {
     return status;
   };
 
+  function handleVisible() {
+    setVisible(!visible);
+  }
+
+  function handleDetails(item) {
+    setOrder(item);
+    handleVisible();
+  }
+
+  function handlePage(page) {
+    if (page === 0) {
+      setCurrentPage(1);
+    } else if (page > pages) {
+      setCurrentPage(pages);
+    } else {
+      setCurrentPage(page);
+    }
+  }
+
+  async function handleDelete(id) {
+    try {
+      await api.delete(`orders/${id}`);
+
+      toast.success('Encomenda deletada com sucesso!');
+    } catch (err) {
+      toast.error('Erro ao deletar encomenda');
+    }
+  }
+
+  function confirmDelete(id) {
+    confirmAlert({
+      title: 'Alerta',
+      message: `Tem certeza que deseja deletar a encomenda ${id}?`,
+      closeOnEscape: false,
+      closeOnClickOutside: false,
+      buttons: [
+        {
+          label: 'Sim',
+          onClick: () => handleDelete(id),
+        },
+        {
+          label: 'Não',
+        },
+      ],
+    });
+  }
+
   useEffect(() => {
     async function loadOrders() {
       try {
@@ -79,26 +127,7 @@ export default function OrderList() {
     }
 
     loadOrders();
-  }, [currentPage, search]);
-
-  function handleVisible() {
-    setVisible(!visible);
-  }
-
-  function handleDetails(item) {
-    setOrder(item);
-    handleVisible();
-  }
-
-  function handlePage(page) {
-    if (page === 0) {
-      setCurrentPage(1);
-    } else if (page > pages) {
-      setCurrentPage(pages);
-    } else {
-      setCurrentPage(page);
-    }
-  }
+  }, [currentPage, search, handleDelete]);
 
   return (
     <>
@@ -117,6 +146,7 @@ export default function OrderList() {
             height={height}
             orders={orders}
             handleDetails={handleDetails}
+            confirmDelete={confirmDelete}
             setOrders={setOrders}
           />
           <Details

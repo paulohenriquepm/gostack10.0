@@ -6,7 +6,13 @@ import Actions from '../Actions';
 import { Scroll, Status } from './styles';
 import { TableContainer } from '~/components/Table';
 
-export default function Table({ height, orders, handleDetails, setOrders }) {
+export default function Table({
+  height,
+  orders,
+  handleDetails,
+  confirmDelete,
+  setOrders,
+}) {
   return (
     <>
       <Scroll height={height} options={{ suppressScrollX: true }}>
@@ -57,6 +63,7 @@ export default function Table({ height, orders, handleDetails, setOrders }) {
                   id={orderItem.id}
                   orders={orders}
                   setOrders={setOrders}
+                  confirmDelete={confirmDelete}
                 />
               </tr>
             ))}

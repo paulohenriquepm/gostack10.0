@@ -65,6 +65,7 @@ export default function Actions({
 Actions.propTypes = {
   page: PropTypes.string.isRequired,
   handleDetails: PropTypes.func.isRequired,
+  confirmDelete: PropTypes.func.isRequired,
   order: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
   id: PropTypes.number.isRequired,
 };

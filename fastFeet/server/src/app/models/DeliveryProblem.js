@@ -1,4 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
+const sequelizePaginate = require('sequelize-paginate');
 
 class DeliveryProblem extends Model {
   static init(sequelize) {
@@ -10,6 +11,8 @@ class DeliveryProblem extends Model {
         sequelize,
       }
     );
+    sequelizePaginate.paginate(DeliveryProblem);
+    return DeliveryProblem;
   }
 
   static associate(models) {

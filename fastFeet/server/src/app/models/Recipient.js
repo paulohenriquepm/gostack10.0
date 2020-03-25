@@ -1,5 +1,7 @@
 import Sequelize, { Model } from 'sequelize';
 
+const sequelizePaginate = require('sequelize-paginate');
+
 class Recipient extends Model {
   static init(sequelize) {
     super.init(
@@ -11,11 +13,14 @@ class Recipient extends Model {
         city: Sequelize.STRING,
         state: Sequelize.STRING,
         cep: Sequelize.STRING,
+        status: Sequelize.BOOLEAN,
       },
       {
         sequelize,
       }
     );
+    sequelizePaginate.paginate(Recipient);
+    return Recipient;
   }
 }
 

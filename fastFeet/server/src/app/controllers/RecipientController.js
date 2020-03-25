@@ -5,21 +5,31 @@ import Recipient from '../models/Recipient';
 
 class RecipentController {
   async index(req, res) {
-    const { name = '' } = req.query;
+    const { name = '', page = 1 } = req.query;
 
-    const recipients = await Recipient.findAll({
+    const { docs, pages, total } = await Recipient.paginate({
+      paginate: 10,
+      page,
       where: {
+        status: true,
         name: {
           [Op.iLike]: `%${name}%`,
         },
       },
     });
 
-    return res.json(recipients);
+    return res.json({
+      docs,
+      page,
+      pages,
+      total,
+    });
   }
 
   async show(req, res) {
-    const recipient = await Recipient.findAll({ where: { id: req.body.id } });
+    const recipient = await Recipient.findAll({
+      where: { id: req.body.id, status: true },
+    });
 
     if (!recipient) {
       return res.status(401).json({ message: 'Recipient not fould!' });
@@ -109,6 +119,25 @@ class RecipentController {
       state,
       cep,
     });
+  }
+
+  async delete(req, res) {
+    const recipient = await Recipient.findOne({
+      where: {
+        id: req.params.id,
+        status: true,
+      },
+    });
+
+    if (!recipient) {
+      res.status(401).json({ error: 'Recipient not found!' });
+    }
+
+    recipient.status = false;
+
+    await recipient.save();
+
+    return res.json(recipient);
   }
 }
 

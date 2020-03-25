@@ -3,14 +3,12 @@ import { useWindowSize } from '@react-hook/window-size';
 import { toast } from 'react-toastify';
 
 import { HeaderList } from '~/components/ActionHeader';
-import { TableContainer, TableLoading } from '~/components/Table';
+import { TableLoading } from '~/components/Table';
 import Pagination from '~/components/Pagination';
 
-import Actions from './Actions';
 import Table from './Table';
 
 import api from '~/services/api';
-// import { Container } from './styles';
 
 export default function DeliverymanList() {
   const [, height] = useWindowSize();

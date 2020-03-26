@@ -1,6 +1,6 @@
 import Sequelize, { Model } from 'sequelize';
 
-const sequelizePaginate = require('sequelize-paginate');
+import sequelizePaginate from 'sequelize-paginate';
 
 class Deliveryman extends Model {
   static init(sequelize) {

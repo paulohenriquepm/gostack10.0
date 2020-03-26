@@ -28,12 +28,6 @@ export const Container = styled.div`
     div {
       display: flex;
       flex-direction: column;
-
-      & + div {
-        margin-top: 15px;
-        border-top: 1px solid #eee;
-        padding-top: 15px;
-      }
     }
 
     strong {
@@ -41,29 +35,9 @@ export const Container = styled.div`
       color: #444;
     }
 
-    span {
-      color: #666;
+    textarea {
+      border: 0;
+      resize: unset;
     }
-
-    img {
-      height: 100px;
-      max-width: 400px;
-    }
-  }
-
-  input {
-    border: none;
-    background: none;
-  }
-`;
-
-export const Date = styled.div`
-  flex-direction: row !important;
-  margin-top: 0 !important;
-  border-top: 0 !important;
-  padding-top: 0 !important;
-
-  input {
-    margin-left: 5px;
   }
 `;

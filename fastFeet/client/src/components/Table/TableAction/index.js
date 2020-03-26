@@ -4,8 +4,8 @@ const Actions = styled.div`
   display: ${props => (props.visible ? 'flex' : 'none')} !important;
   flex-direction: column;
   position: absolute;
-  right: -38px;
-  z-index: 2;
+  right: 10px;
+  z-index: 5;
   box-shadow: 0px 0px 2px #00000026;
   background: #fff;
   padding: 15px 10px;

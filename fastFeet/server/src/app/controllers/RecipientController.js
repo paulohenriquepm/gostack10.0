@@ -27,12 +27,23 @@ class RecipentController {
   }
 
   async show(req, res) {
-    const recipient = await Recipient.findAll({
-      where: { id: req.body.id, status: true },
+    const recipient = await Recipient.findByPk(req.params.id, {
+      where: { status: true },
+      attributes: [
+        'id',
+        'name',
+        'street',
+        'number',
+        'complement',
+        'city',
+        'state',
+        'cep',
+        'status',
+      ],
     });
 
     if (!recipient) {
-      return res.status(401).json({ message: 'Recipient not fould!' });
+      return res.status(400).json({ error: 'Deliveryman not found' });
     }
 
     return res.json(recipient);
@@ -41,83 +52,81 @@ class RecipentController {
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
+      cep: Yup.string()
+        .required()
+        .min(9)
+        .max(9),
       street: Yup.string().required(),
       number: Yup.string().required(),
-      complement: Yup.string(),
+      complement: Yup.string().notRequired(),
       city: Yup.string().required(),
       state: Yup.string().required(),
-      cep: Yup.string().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ message: 'Validation fails!' });
+      return res.status(400).json({ error: 'Field validation fails' });
     }
 
-    const {
-      id,
-      name,
-      street,
-      number,
-      complement,
-      city,
-      state,
-      cep,
-    } = await Recipient.create(req.body);
-
-    return res.json({
-      id,
-      name,
-      street,
-      number,
-      complement,
-      city,
-      state,
-      cep,
+    const recipientExist = await Recipient.findOne({
+      where: {
+        name: req.body.name,
+        street: req.body.street,
+        number: req.body.number,
+      },
     });
+
+    if (recipientExist) {
+      return res.status(400).json({ error: 'Recipient already exists' });
+    }
+
+    const recipient = await Recipient.create(req.body);
+
+    return res.json({ recipient });
   }
 
   async update(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string(),
+      cep: Yup.string()
+        .min(9)
+        .max(9),
       street: Yup.string(),
-      number: Yup.string(),
+      number: Yup.string().when('street', (street, field) =>
+        street ? field.required() : field
+      ),
       complement: Yup.string(),
-      city: Yup.string(),
       state: Yup.string(),
-      cep: Yup.string(),
+      city: Yup.string().when('state', (state, field) =>
+        state ? field.required() : field
+      ),
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ message: 'Validation fails!' });
+      return res.status(400).json({ error: 'Field validation fails' });
     }
 
-    const { id } = req.body;
-
-    const recipient = await Recipient.findByPk(id);
-
-    if (!recipient) {
-      return res.status(401).json({ message: 'Recipient not found!' });
-    }
+    const recipient = await Recipient.findByPk(req.params.id);
 
     const {
+      id,
       name,
+      cep,
       street,
       number,
       complement,
       city,
       state,
-      cep,
     } = await recipient.update(req.body);
 
     return res.json({
       id,
       name,
+      cep,
       street,
       number,
       complement,
       city,
       state,
-      cep,
     });
   }
 

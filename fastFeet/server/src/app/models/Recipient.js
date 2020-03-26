@@ -1,6 +1,6 @@
 import Sequelize, { Model } from 'sequelize';
 
-const sequelizePaginate = require('sequelize-paginate');
+import sequelizePaginate from 'sequelize-paginate';
 
 class Recipient extends Model {
   static init(sequelize) {

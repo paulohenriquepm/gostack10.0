@@ -9,12 +9,16 @@ import CanceledDeliveryMail from '../jobs/CanceledDeliveryMail';
 
 class DeliveryProblemController {
   async index(req, res) {
-    const problems = await DeliveryProblem.findAll({
+    const { page = 1 } = req.query;
+
+    const { docs, pages, total } = await DeliveryProblem.paginate({
+      page,
+      paginate: 10,
       attributes: ['id', 'description'],
       include: {
         model: Order,
         as: 'order',
-        attributes: ['id', 'product'],
+        attributes: ['id', 'product', 'canceled_at'],
         include: [
           {
             model: Recipient,
@@ -30,7 +34,12 @@ class DeliveryProblemController {
       },
     });
 
-    return res.json(problems);
+    return res.json({
+      docs,
+      page,
+      pages,
+      total,
+    });
   }
 
   async store(req, res) {

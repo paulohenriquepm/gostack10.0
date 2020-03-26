@@ -27,8 +27,9 @@ routes.get('/users', UserController.index);
 routes.put('/users', UserController.update);
 
 routes.get('/recipients', RecipientController.index);
+routes.get('/recipients/:id', RecipientController.show);
 routes.post('/recipients', RecipientController.store);
-routes.put('/recipients', RecipientController.update);
+routes.put('/recipients/:id', RecipientController.update);
 routes.delete('/recipients/:id', RecipientController.delete);
 
 routes.get('/deliverymans/:id/deliveries', DeliverieController.index);

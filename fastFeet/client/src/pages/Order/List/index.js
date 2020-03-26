@@ -127,7 +127,7 @@ export default function OrderList() {
     }
 
     loadOrders();
-  }, [currentPage, search, handleDelete]);
+  }, [currentPage, search]);
 
   return (
     <>

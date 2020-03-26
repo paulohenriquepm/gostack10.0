@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { confirmAlert } from 'react-confirm-alert';
+import { toast } from 'react-toastify';
 
-import {
-  MdMoreHoriz,
-  MdVisibility,
-  MdCreate,
-  MdDeleteForever,
-} from 'react-icons/md';
+import { MdMoreHoriz, MdVisibility, MdDeleteForever } from 'react-icons/md';
+
+import api from '~/services/api';
 
 import { TableAction } from '~/components/Table';
 
 import { Container } from './styles';
 
-export default function Actions({ page }) {
+export default function Actions({ handleDetails, problem, id, confirmDelete }) {
   const [visible, setVisible] = useState(false);
 
   function handleTogglePopUp() {
@@ -28,16 +27,16 @@ export default function Actions({ page }) {
 
       <TableAction visible={visible}>
         <div>
-          <button type="button">
+          <button type="button" onClick={() => handleDetails(problem)}>
             <MdVisibility size={18} color="#8E5BE8" />
             Visualizar
           </button>
         </div>
 
         <div>
-          <button type="button">
+          <button type="button" onClick={() => confirmDelete(id)}>
             <MdDeleteForever size={18} color="#DE3B3B" />
-            Cancelar encomenda
+            Cancelar
           </button>
         </div>
       </TableAction>
@@ -45,6 +44,9 @@ export default function Actions({ page }) {
   );
 }
 
-TableAction.propTypes = {
-  page: PropTypes.string.isRequired,
+Actions.propTypes = {
+  handleDetails: PropTypes.func.isRequired,
+  confirmDelete: PropTypes.func.isRequired,
+  problem: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+  id: PropTypes.number.isRequired,
 };

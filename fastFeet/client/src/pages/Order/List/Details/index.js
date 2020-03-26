@@ -33,6 +33,9 @@ export default function Details({ visible, order, handleVisible }) {
           </div>
           <div>
             <strong>Assinatura do destinatário</strong>
+            {order.signature && (
+              <img src={order.signature.url} alt="assinatura" />
+            )}
           </div>
         </Form>
       </Container>

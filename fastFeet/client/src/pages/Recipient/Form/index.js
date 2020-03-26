@@ -54,7 +54,7 @@ export default function RecipientForm({ match }) {
       const schema = Yup.object().shape({
         name: Yup.string().required('O nome do destinatário é obrigatório'),
         street: Yup.string().required('A rua do destinatário é obrigatório'),
-        number: Yup.number('Certifique-se que um número foi digitado').required(
+        number: Yup.string('Certifique-se que um número foi digitado').required(
           'O número do destinatário é obrigatório'
         ),
         complement: Yup.string(),

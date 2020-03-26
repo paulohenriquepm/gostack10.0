@@ -12,9 +12,10 @@ export default function ActionHeader({
   filter,
   search,
   setSearch,
+  handleFilter,
 }) {
   return (
-    <Container visible={visible}>
+    <Container visible={visible} filter={filter}>
       <h1>Gerenciando {title}</h1>
       <div>
         <main>
@@ -28,7 +29,7 @@ export default function ActionHeader({
             />
           </Search>
 
-          <button type="button" visible={filter}>
+          <button type="button" onClick={() => handleFilter()}>
             Listar somente entregas com problemas
           </button>
         </main>
@@ -49,4 +50,5 @@ ActionHeader.propTypes = {
   filter: PropTypes.bool.isRequired,
   search: PropTypes.string.isRequired,
   setSearch: PropTypes.func.isRequired,
+  handleFilter: PropTypes.func.isRequired,
 };

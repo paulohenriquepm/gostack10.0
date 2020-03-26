@@ -89,6 +89,42 @@ export default function OrderList() {
     });
   }
 
+  async function handleFilter() {
+    try {
+      setLoading(true);
+      const response = await api.get('/orders-problems', {
+        params: {
+          page: currentPage,
+        },
+      });
+
+      if (!response.data.docs) {
+        toast.warn('Nenhum dado foi encontrado');
+      }
+
+      const data = response.data.docs.map(item => ({
+        ...item,
+        street_number: `${item.recipient.street}, ${item.recipient.number}`,
+        city_state: `${item.recipient.city} - ${item.recipient.state}`,
+        status: getFormattedStatus(item),
+        start_date_formatted: item.start_date
+          ? format(parseISO(item.start_date), 'dd/MM/yyyy')
+          : null,
+        end_date_formatted: item.end_date
+          ? format(parseISO(item.end_date), 'dd/MM/yyyy')
+          : null,
+      }));
+
+      setOrders(data);
+      setPages(response.data.pages);
+      setTotalDocs(response.data.total);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      toast.error('Falha ao buscar dados');
+    }
+  }
+
   useEffect(() => {
     async function loadOrders() {
       try {
@@ -138,6 +174,7 @@ export default function OrderList() {
         setSearch={setSearch}
         visible
         filter
+        handleFilter={handleFilter}
       />
       {loading ? (
         <TableLoading />

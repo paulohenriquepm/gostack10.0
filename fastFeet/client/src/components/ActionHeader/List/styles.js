@@ -21,7 +21,7 @@ export const Container = styled.div`
     display: flex;
 
     button {
-      display: ${props => (props.visible ? 'flex' : 'none')};
+      display: ${props => (props.filter ? 'flex' : 'none')};
       margin-left: 10px;
       background: #7d40e7;
       color: #fff;

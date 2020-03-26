@@ -10,6 +10,7 @@ import OrderController from './app/controllers/OrderController';
 import DeliverieController from './app/controllers/DeliverieController';
 import DeliveredOrderController from './app/controllers/DeliveredOrderController';
 import DeliveryProblemController from './app/controllers/DeliveryProblemController';
+import OrderWithProblemController from './app/controllers/OrderWithProblemController';
 
 import authMiddleware from './app/middlewares/auth';
 import adminAuthMiddleware from './app/middlewares/adminAuth';
@@ -49,9 +50,10 @@ routes.post('/deliverymans', DeliverymanController.store);
 routes.delete('/deliverymans/:id', DeliverymanController.delete);
 routes.put('/deliverymans/:id', DeliverymanController.update);
 
-routes.post('/orders', OrderController.store);
 routes.get('/orders', OrderController.index);
 routes.get('/orders/:id', OrderController.show);
+routes.get('/orders-problems', OrderWithProblemController.index);
+routes.post('/orders', OrderController.store);
 routes.put('/orders/:id', OrderController.update);
 routes.delete('/orders/:id', OrderController.delete);
 

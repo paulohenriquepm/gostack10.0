@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { confirmAlert } from 'react-confirm-alert';
-import { toast } from 'react-toastify';
 
 import {
   MdMoreHoriz,
@@ -10,8 +8,6 @@ import {
   MdCreate,
   MdDeleteForever,
 } from 'react-icons/md';
-
-import api from '~/services/api';
 
 import { TableAction } from '~/components/Table';
 

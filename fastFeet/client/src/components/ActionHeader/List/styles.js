@@ -17,6 +17,26 @@ export const Container = styled.div`
     justify-content: space-between;
   }
 
+  main {
+    display: flex;
+
+    button {
+      display: ${props => (props.visible ? 'flex' : 'none')};
+      margin-left: 10px;
+      background: #7d40e7;
+      color: #fff;
+      border: 0;
+      font-size: 14px;
+      padding: 0 10px;
+      border-radius: 4px;
+      transition: background 0.2s;
+
+      &:hover {
+        background: ${darken(0.03, '#7d40e7')};
+      }
+    }
+  }
+
   a {
     background: #7d40e7;
     color: #fff;

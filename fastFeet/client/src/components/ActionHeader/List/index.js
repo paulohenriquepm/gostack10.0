@@ -9,6 +9,7 @@ export default function ActionHeader({
   page,
   title,
   visible,
+  filter,
   search,
   setSearch,
 }) {
@@ -16,15 +17,21 @@ export default function ActionHeader({
     <Container visible={visible}>
       <h1>Gerenciando {title}</h1>
       <div>
-        <Search>
-          <MdSearch size={16} color="#999999" />
-          <input
-            type="text"
-            placeholder={`Buscar por ${title}`}
-            value={search}
-            onChange={e => [setSearch(e.target.value)]}
-          />
-        </Search>
+        <main>
+          <Search>
+            <MdSearch size={16} color="#999999" />
+            <input
+              type="text"
+              placeholder={`Buscar por ${title}`}
+              value={search}
+              onChange={e => [setSearch(e.target.value)]}
+            />
+          </Search>
+
+          <button type="button" visible={filter}>
+            Listar somente entregas com problemas
+          </button>
+        </main>
 
         <Link to={`/${page}`}>
           <MdAdd size={20} color="#FFF" />
@@ -39,6 +46,7 @@ ActionHeader.propTypes = {
   page: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   visible: PropTypes.bool.isRequired,
+  filter: PropTypes.bool.isRequired,
   search: PropTypes.string.isRequired,
-  setSearch: PropTypes.string.isRequired,
+  setSearch: PropTypes.func.isRequired,
 };

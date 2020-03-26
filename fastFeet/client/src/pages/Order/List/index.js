@@ -137,6 +137,7 @@ export default function OrderList() {
         search={search}
         setSearch={setSearch}
         visible
+        filter
       />
       {loading ? (
         <TableLoading />

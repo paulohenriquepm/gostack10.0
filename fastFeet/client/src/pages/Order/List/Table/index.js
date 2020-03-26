@@ -76,7 +76,8 @@ export default function Table({
 
 Table.propTypes = {
   height: PropTypes.number.isRequired,
-  orders: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  orders: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   handleDetails: PropTypes.func.isRequired,
+  confirmDelete: PropTypes.func.isRequired,
   setOrders: PropTypes.func.isRequired,
 };

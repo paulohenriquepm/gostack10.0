@@ -1,10 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import TextareaAutosize from 'react-autosize-textarea';
 import { useField } from '@unform/core';
+import PropTypes from 'prop-types';
 
 export default function TextArea({ name, ...rest }) {
   const textAreaRef = useRef(null);
-  const { defaultValue, fieldName, registerField, error } = useField(name);
+  const { defaultValue, fieldName, registerField } = useField(name);
 
   useEffect(() => {
     registerField({
@@ -23,3 +24,7 @@ export default function TextArea({ name, ...rest }) {
     />
   );
 }
+
+TextArea.propTypes = {
+  name: PropTypes.string.isRequired,
+};

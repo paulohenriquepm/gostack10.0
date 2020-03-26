@@ -63,6 +63,11 @@ SelectComponent.propTypes = {
   onChange: PropTypes.func.isRequired,
   defaultValue: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
     .isRequired,
-  label: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+};
+
+SelectComponent.defaultProps = {
+  label: null,
+  placeholder: null,
 };

@@ -25,5 +25,9 @@ export default function InputMask({ name, label, ...rest }) {
 
 InputMask.propTypes = {
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
+};
+
+InputMask.defaultProps = {
+  label: null,
 };
